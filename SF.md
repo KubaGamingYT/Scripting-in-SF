@@ -83,10 +83,10 @@ wait(); // add seconds to the ()
 
 Shows an message on the screen
 ```
-UI_SetMissionMessage("MOD_MISSION_FAILED_TEXT", 4);
+UI_SetMissionMessage("MOD_MESSAGE", 4);
 ```
 
-This sets an Objective Marker for the 1 player
+This sets and clears an Objective Marker for the 1 player
 ```
 Position Pos(0, 0, 0);
 
@@ -98,11 +98,6 @@ SetSatNavDestination();
 SetObjectiveMarker(cPlayer1, 0, false, false);
 ShowObjectiveMarker(false);
 //this clears the marker
-```
-
-True and false variable
-```
-Bool bPlayer1(false);
 ```
 
 True and false variable
