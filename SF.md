@@ -23,7 +23,7 @@ Verify if the city is loaded
 ```
 WorldLevel wlCity("Lego_City"); // Make the game know that code is executing in LEGO_CITY
 
-if( wlCity.IsLoaded() ) {}; // Make the game verify if the City is loaded
+while(!wlCity.IsLoaded()){} // Make the game verify if the City is loaded
 ```
 
 Getting player characters for the script
