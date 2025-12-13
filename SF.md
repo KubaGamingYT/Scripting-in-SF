@@ -50,7 +50,7 @@ Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, (200 / 360
 Can the character be killed, can it be pushed or can it be arrested.
 ```
 Guard.SetInvulnerable(true/false);
-Guard.SetPushable(true/false)
+Guard.SetPushable(true/false);
 Guard.SetArrestable(true/false);
 ```
 
@@ -64,6 +64,17 @@ PlayActionMusic(true);
 PlayActionMusic(false);
 
 ClearTrackBank();
+```
+Make Trackbank music play or stop
+```
+tMusic.Play();
+tMusic.Stop();
+```
+
+Make Something happen when you enter or leave the vehicle
+```
+if(cPlayer1.GetVehicle()) {}
+elseIf(!cPlayer1.GetVehicle()) {}
 ```
 
 Make an character attack the player
@@ -83,8 +94,26 @@ UI_SetMissionMessage("MOD_MISSION_FAILED_TEXT", 4);
 
 This sets an Objective Marker for the 1 player
 ```
-SetObjectiveMarker(cPlayer1, 0, true/false, true/false);
-ShowObjectiveMarker(true/false);
+Position Pos(0, 0, 0);
+
+SetSatNavDestination(Pos);
+SetObjectiveMarker(Pos, 0.5, true, true);
+ShowObjectiveMarker(true):
+//this sets up an objective marker
+SetSatNavDestination();
+SetObjectiveMarker(cPlayer1, 0, false, false);
+ShowObjectiveMarker(false);
+//this clears the marker
+```
+
+True and false variable
+```
+Bool bPlayer1(false);
+```
+
+True and false variable
+```
+Bool bPlayer1(false);
 ```
 
 
