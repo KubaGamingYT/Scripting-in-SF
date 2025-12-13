@@ -37,7 +37,7 @@ Mentioning a character
 Character Gangmember1;
 ```
 
-Spawning the character in some kind of position
+Declaring the position of a character
 ```
 Position GuardSpawnPos(0, 0, 0); // replace the Guard with the name of the character for example Gangmember1
 ```
@@ -47,11 +47,10 @@ Creating the AI Character
 Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, (200 / 360) * 65535);
 ```
 
-Can the character be killed, can it be pushed or can it be arrested.
+Can the character be killed or can it be arrested.
 ```
 Guard.SetInvulnerable(true/false);
 Guard.SetPushable(true/false);
-Guard.SetArrestable(true/false);
 ```
 
 How to play music and stop it
@@ -64,11 +63,6 @@ PlayActionMusic(true);
 PlayActionMusic(false);
 
 ClearTrackBank();
-```
-Make Trackbank music play or stop
-```
-tMusic.Play();
-tMusic.Stop();
 ```
 
 Make Something happen when you enter or leave the vehicle
