@@ -37,6 +37,17 @@ Mentioning a character
 Character Gangmember1;
 ```
 
+Mentioning a vehicle
+```
+Vehicle PrisonerTransport;
+```
+
+Make an character enter/leave the vehicle
+```
+NPC.EnterVehicle( PrisonerTransport, #PASSENGER2 );
+NPC.ClearVehicle
+```
+
 Declaring the position of a character
 ```
 Position GuardSpawnPos(0, 0, 0); // replace the Guard with the name of the character for example Gangmember1
@@ -47,10 +58,12 @@ Creating the AI Character
 Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, (200 / 360) * 65535);
 ```
 
-Can the character be killed or can it be arrested.
+Some things for getting characters to do something
 ```
-Guard.SetInvulnerable(true/false);
-Guard.SetPushable(true/false);
+Guard.SetInvulnerable(true/false); // Makes him invincible
+Guard.SetPushable(true/false); // Makes him pushable
+Guard.SetArrestable(true/false); // Makes him arrestable
+Guard.Kill(); // Destroys him
 ```
 
 How to play music and stop it
@@ -114,10 +127,9 @@ Stop using base and use SpawnRobber
 goto SpawnRobber();
 ```
 
-Destroy a vehicle and kill a character
+Destroy a vehicle
 ```
 cTrooper.Destroy();
-cPlayer1.Kill();
 ```
 
 Play a SFX
