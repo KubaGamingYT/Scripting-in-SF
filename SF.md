@@ -116,6 +116,21 @@ True and false variable
 Bool bPlayer1(false);
 ```
 
+If player pressted the button A something happens
+```
+if ( PlayerPressedButton("A") )
+```
+Stop using base and use SpawnRobber
+```
+goto SpawnRobber();
+```
+
+Destroy a vehicle
+```
+cTrooper.Destroy();
+```
+
+
 
 
 
