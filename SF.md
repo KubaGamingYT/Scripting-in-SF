@@ -114,10 +114,30 @@ Stop using base and use SpawnRobber
 goto SpawnRobber();
 ```
 
-Destroy a vehicle
+Destroy a vehicle and kill a character
 ```
 cTrooper.Destroy();
+cPlayer1.Kill();
 ```
+
+Play a SFX
+```
+PlaySFX(sfx="UI_CodeBreak_CheatUnlocked");
+```
+
+Commenting something in the script
+```
+// My comment
+```
+
+Making the screen black and normal again
+```
+Fadescreen(true);
+wait(1);
+Fadescreen(true);
+```
+
+
 
 
 
