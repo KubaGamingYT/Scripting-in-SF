@@ -45,7 +45,7 @@ Vehicle PrisonerTransport;
 Make an character enter/leave the vehicle
 ```
 NPC.EnterVehicle( PrisonerTransport, #PASSENGER2 );
-NPC.ClearVehicle
+NPC.ExitVehicle()
 ```
 
 Declaring the position of a character
@@ -122,7 +122,8 @@ If player pressted the button A something happens
 ```
 if ( PlayerPressedButton("A") )
 ```
-Stop using base and use SpawnRobber
+
+The script stops using Base and used the other variable instead (here its SpawnRobber)
 ```
 goto SpawnRobber();
 ```
@@ -140,6 +141,10 @@ PlaySFX(sfx="UI_CodeBreak_CheatUnlocked");
 Commenting something in the script
 ```
 // My comment
+
+/*
+My comment
+*/
 ```
 
 Making the screen black and normal again
