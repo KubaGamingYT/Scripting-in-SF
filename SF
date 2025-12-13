@@ -115,6 +115,15 @@ UI_SetMissionMessage("MOD_MISSION_FAILED_TEXT", 4);
 ———
 ```
 
+This sets an Objective Marker for the 1 player
+
+```
+———
+SetObjectiveMarker(cPlayer1, 0, true/false, true/false);
+ShowObjectiveMarker(true/false);
+———
+```
+
 
 
 
