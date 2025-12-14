@@ -32,7 +32,7 @@ Global Character cPlayer1;
 Global Character cPlayer2; // cPlayer1 is the first player and cPlayer2 is the second player
 ```
 
-Mentioning some things
+Variable types in LCU
 ```
 Character NPC;
 Vehicle PrisonerTransport;
@@ -54,7 +54,7 @@ goto SetLCPDSatNav();
 
 Make an character enter/leave the vehicle
 ```
-NPC.EnterVehicle( PrisonerTransport, "Driver");
+NPC.EnterVehicle(car, #DRIVER);
 NPC.ExitVehicle()
 ```
 
@@ -66,8 +66,7 @@ Position GuardSpawnPos(0, 0, 0); // replace the Guard with the name of the chara
 Creating the AI Character and a AI vehicle
 ```
 Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, (200 / 360) * 65535);
-CreateAIVehicle(tVehicleType, "Enforcer", lCar02, nDirection );
-
+Vehicle = CreateAIVehicle(tVehicleType, "Enforcer", lCar02, nDirection );
 ```
 
 Some things for getting characters, vehicles, models or audio to do something
@@ -78,7 +77,7 @@ Guard.SetNoCollision(true/false); // Makes him have no collision
 Guard.SetNoTerrainCollision(true/false); // Makes him have no Terrain collision
 Guard.SetArrestable(true/false); // Makes him arrestable
 Guard.Kill(); // Destroys him
-Guard.PlayContextAnimation("PoliceStation_StairSweep", -1) // Makes him play some kind of animation
+Guard.PlayContextAnimation("PoliceStation_StairSweep", -1) // Makes him play some kind of animation (-1 means it plays forever, 1 means it plays once)
 Guard.Teleport( lP2Port, nDirection ); // Makes him teleport somewhere
 
 cTrooper.Destroy(); // Destroys a vehicle
