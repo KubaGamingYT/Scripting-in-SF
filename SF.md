@@ -1,8 +1,8 @@
 In this document i'll show you how to script in .SF.
 
-# Basics
+# SF Scripting
 
-How to start your code:
+Starting your code:
 ```
 State Base() {
 
@@ -26,6 +26,11 @@ WorldLevel wlCity("Lego_City"); // Make the game know that code is executing in 
 while(!wlCity.IsLoaded()){} // Make the game verify if the City is loaded
 ```
 
+Verify if its safe to interrupt the gameplay
+```
+if( SafeToInterruptGameplay() ) {};
+```
+
 Getting player characters for the script
 ```
 Global Character cPlayer1;
@@ -36,12 +41,29 @@ Variable types in LCU
 ```
 Character NPC;
 Vehicle PrisonerTransport;
+Job fFlowMutex("Flow_Setup");
 Number nDirection(lFrankLobbySpawn.GetDirection() );
 Text tLightsOn("Light_On_");
 Sound sMainIntro_01_40_Mayor("MainIntro_01_40_Mayor");
 Gizmo gBankMCut("M03_BankMinicut");
 Locator lFrankMove("Story_02_FrankMove", wlTheCity);
 Timer scriptTimer(0);
+```
+
+Make GUI visible/invisible
+```
+UI_ShowHUD(true/false); // Other GUIs
+UI_ShowPlayerHUD(false); // Player GUI
+```
+
+Stop rendering the character
+```
+SetCharacterFlags(Character=cPlayer1, #DontRender);
+```
+
+Get the position of the player
+```
+Position playerpos(cPlayer1.GetPosition());
 ```
 
 If we want to make the game to do something when this and this happen we use OR
@@ -141,11 +163,17 @@ ShowObjectiveMarker(false);
 True and false variable
 ```
 Bool bPlayer1(false);
+
+```
+Lock the player in place
+```
+cPlayer1.LockInPlace(true, "idle");
 ```
 
-If player pressted the button A something happens
+If Player pressed the button a something happens, if player holds the button L2 something happens
 ```
 if ( PlayerPressedButton("A") )
+if (PlayerHeldButton("L2") )
 ```
 
 The script stops using Base and used the other variable instead (here its SpawnRobber)
