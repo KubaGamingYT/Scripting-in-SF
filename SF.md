@@ -32,19 +32,29 @@ Global Character cPlayer1;
 Global Character cPlayer2; // cPlayer1 is the first player and cPlayer2 is the second player
 ```
 
-Mentioning a character
+Mentioning some things
 ```
-Character Gangmember1;
+Character NPC;
+Vehicle PrisonerTransport;
+Number nDirection(lFrankLobbySpawn.GetDirection() );
+Text tLightsOn("Light_On_");
+Sound sMainIntro_01_40_Mayor("MainIntro_01_40_Mayor");
+Gizmo gBankMCut("M03_BankMinicut");
+Locator lFrankMove("Story_02_FrankMove", wlTheCity);
+Timer scriptTimer(0);
 ```
 
-Mentioning a vehicle
+If we want to make the game to do something when this and this happen we use OR
 ```
-Vehicle PrisonerTransport;
+if (  cPlayer1.GetVehicle() OR cPlayer2.GetVehicle()  )
+{
+				
+goto SetLCPDSatNav();
 ```
 
 Make an character enter/leave the vehicle
 ```
-NPC.EnterVehicle( PrisonerTransport, #PASSENGER2 );
+NPC.EnterVehicle( PrisonerTransport, "Driver");
 NPC.ExitVehicle()
 ```
 
@@ -53,17 +63,32 @@ Declaring the position of a character
 Position GuardSpawnPos(0, 0, 0); // replace the Guard with the name of the character for example Gangmember1
 ```
 
-Creating the AI Character
+Creating the AI Character and a AI vehicle
 ```
 Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, (200 / 360) * 65535);
+CreateAIVehicle(tVehicleType, "Enforcer", lCar02, nDirection );
+
 ```
 
-Some things for getting characters to do something
+Some things for getting characters, vehicles, models or audio to do something
 ```
 Guard.SetInvulnerable(true/false); // Makes him invincible
 Guard.SetPushable(true/false); // Makes him pushable
+Guard.SetNoCollision(true/false); // Makes him have no collision
+Guard.SetNoTerrainCollision(true/false); // Makes him have no Terrain collision
 Guard.SetArrestable(true/false); // Makes him arrestable
 Guard.Kill(); // Destroys him
+Guard.PlayContextAnimation("PoliceStation_StairSweep", -1) // Makes him play some kind of animation
+Guard.Teleport( lP2Port, nDirection ); // Makes him teleport somewhere
+
+cTrooper.Destroy(); // Destroys a vehicle
+
+gStairBlockage1.SetVisible(true); // Makes a model visible
+gStairBlockage1.SetActive(true); // Makes a model active
+gDoors.Reset(); // Resets it
+
+sFranKTalk1.Start(); // Starts an audio
+sFranKTalk1.Stop(); // Stops an audio
 ```
 
 How to play music and stop it
@@ -89,9 +114,10 @@ Make an character attack the player
 Gangmember1.Attack(cPlayer1);
 ```
 
-The scripts waits before doing something
+The script waits before doing something
 ```
-wait(); // add seconds to the ()
+wait(1); // waits 1 second
+wait(0.5); // waits 500 milliseconds before doing something
 ```
 
 Shows an message on the screen
@@ -126,11 +152,6 @@ if ( PlayerPressedButton("A") )
 The script stops using Base and used the other variable instead (here its SpawnRobber)
 ```
 goto SpawnRobber();
-```
-
-Destroy a vehicle
-```
-cTrooper.Destroy();
 ```
 
 Play a SFX
