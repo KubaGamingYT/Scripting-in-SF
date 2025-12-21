@@ -202,6 +202,14 @@ wait(1);
 Fadescreen(true);
 ```
 
+Set time of day to DUSK, NOON or DAWN (you can also do nothing which will look like a night)
+```
+SetTimeOfDay(“Dusk”);
+SetTimeOfDay(“Dawn”);
+SetTimeOfDay(“Noon”);
+
+SetTimeOfDay(“You can put whatever you want here for the night effect”);
+```
 
 
 
