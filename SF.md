@@ -211,6 +211,13 @@ SetTimeOfDay(“Noon”);
 SetTimeOfDay(“You can put whatever you want here for the night effect”);
 ```
 
+check if player is skydiving, isnt skydiving or make the player end a skydive
+```
+if (cPlayer1.IsSkydiving())
+if (!cPlayer1.IsSkydiving())
+(cPlayer1.EndSkydive();
+```
+
 
 
 
