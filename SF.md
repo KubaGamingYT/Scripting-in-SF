@@ -23,7 +23,7 @@ Verify if the city is loaded
 ```
 WorldLevel wlCity("Lego_City"); // Make the game know that code is executing in LEGO_CITY
 
-while(!wlCity.IsLoaded()){} // Make the game verify if the City is loaded
+while(!wlCity.IsLoaded()){} // For actions
 ```
 
 Verify if its safe to interrupt the gameplay
@@ -40,14 +40,26 @@ Global Character cPlayer2; // cPlayer1 is the first player and cPlayer2 is the s
 Variable types in LCU
 ```
 Character NPC;
+
 Vehicle PrisonerTransport;
+
 Job fFlowMutex("Flow_Setup");
+
 Number nDirection(lFrankLobbySpawn.GetDirection() );
+
 Text tLightsOn("Light_On_");
+
 Sound sMainIntro_01_40_Mayor("MainIntro_01_40_Mayor");
+
 Gizmo gBankMCut("M03_BankMinicut");
+
 Locator lFrankMove("Story_02_FrankMove", wlTheCity);
+
 Timer scriptTimer(0);
+
+Bool bPlayer1(false);
+
+Position startPos(-179.5, 3.36, -220);
 ```
 
 Make GUI visible/invisible
@@ -80,11 +92,6 @@ NPC.EnterVehicle(car, #DRIVER);
 NPC.ExitVehicle()
 ```
 
-Declaring the position of a character
-```
-Position GuardSpawnPos(0, 0, 0); // replace the Guard with the name of the character for example Gangmember1
-```
-
 Creating the AI Character and a AI vehicle
 ```
 Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, (200 / 360) * 65535);
@@ -100,7 +107,7 @@ Guard.SetNoTerrainCollision(true/false); // Makes him have no Terrain collision
 Guard.SetArrestable(true/false); // Makes him arrestable
 Guard.Kill(); // Destroys him
 Guard.PlayContextAnimation("PoliceStation_StairSweep", -1) // Makes him play some kind of animation (-1 means it plays forever, 1 means it plays once)
-Guard.Teleport( lP2Port, nDirection ); // Makes him teleport somewhere
+Guard.Teleport( position, direction ); // Makes him teleport somewhere
 
 cTrooper.Destroy(); // Destroys a vehicle
 
@@ -160,14 +167,13 @@ ShowObjectiveMarker(false);
 //this clears the marker
 ```
 
-True and false variable
-```
-Bool bPlayer1(false);
-
-```
 Lock the player in place
 ```
-cPlayer1.LockInPlace(true, "idle");
+cPlayer1.SetAiOverride(true); // lock
+
+cPlayer1.SetAiOverride(false); // unlock
+
+cPlayer1.LockInPlace(true, "idle"); // you can also use this
 ```
 
 If Player pressed the button a something happens, if player holds the button L2 something happens
@@ -176,7 +182,7 @@ if ( PlayerPressedButton("A") )
 if (PlayerHeldButton("L2") )
 ```
 
-The script stops using Base and used the other variable instead (here its SpawnRobber)
+The script changes the State Base to another one (For example State SpawnRobber)
 ```
 goto SpawnRobber();
 ```
@@ -211,11 +217,16 @@ SetTimeOfDay(“Noon”);
 SetTimeOfDay(“You can put whatever you want here for the night effect”);
 ```
 
-check if player is skydiving, isnt skydiving or make the player end a skydive
+Check if player is skydiving, isnt skydiving or make the player end a skydive
 ```
 if (cPlayer1.IsSkydiving())
 if (!cPlayer1.IsSkydiving())
-(cPlayer1.EndSkydive();
+if (!cPlayer1.EndSkydive());
+```
+
+Make the player face another character
+```
+cPlayer1.FaceCharacter(vinnie);
 ```
 
 
