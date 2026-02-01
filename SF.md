@@ -1,10 +1,57 @@
 In this document i'll show you how to script in .SF.
 
-# SF Scripting
+# Basics
 
-Starting your code:
+Hello, welcome to this guide. I'm still working on it if you have any questions add me on discord: jakub8413_.
+
+Here are some basics and how to make good scripts.
+
+1. Always first use variables such as
 ```
-State Base() {
+Global Character cPlayer1;
+Global Character cPlayer2;
+```
+- This makes the game know the script is about cPlayer1 or cPlayer2. If you only want to make the script for the cPlayer1 you don't need to use Global Character cPlayer2.
+
+- Other basic variables:
+```
+Character c;
+Vehicle v;
+Job fFlowMutex("Flow_Setup");
+Number nDirection(lFrankLobbySpawn.GetDirection());
+Text tLightsOn("Light_On_");
+Sound sMainIntro_01_40_Mayor("MainIntro_01_40_Mayor");
+Gizmo gBankMCut("M03_BankMinicut");
+Locator lFrankMove("Story_02_FrankMove", wlTheCity);
+Timer scriptTimer(0);
+Bool bPlayer1(false);
+Position startPos(-179.5, 3.36, -220);
+```
+
+- If you want to use variables between scripts use Global before the variable name.
+
+Examples:
+```
+Global Character c;
+Global Vehicle v;
+Global Bool b;
+Global Number n;
+
+// etc.
+```
+
+2. States. 
+
+- We use them after variables. You can name the State whatever you want.
+
+- To change states from one to another we use:
+```
+goto MainB();
+```
+
+- And that's how States look:
+```
+State MainB() {
 
     Conditions
     {
@@ -14,53 +61,100 @@ State Base() {
     {
         // Here you add your code (the script does everything instantly)
     };
-}
+};
 
 Base();
 ```
 
-Verify if the city is loaded
+- If you're using conditions you need to remember that you don't use while, you use if, and in Actions you can use if and while.
+
+3. If, ElseIf, Else and while
+
+- For making if something doesn't happen something happens we use !
+```
+if(!cPlayer1.GetVehicle()){};
+```
+
+- Examples of using if, elseif, else and while
+```
+if(cPlayer1.GetVehicle()){};
+elseif(cPlayer1.GetVehicle()){};
+else(cPlayer1.GetVehicle()){};
+while(!cPlayer1.GetVehicle()){};
+```
+
+4. Worldlevels
+
+- Worldlevel is an function to make the game know what WorldLevels are used in the script
 ```
 WorldLevel wlCity("Lego_City"); // Make the game know that code is executing in LEGO_CITY
 
-while(!wlCity.IsLoaded()){} // For actions
+while(!wlCity.IsLoaded()){}; // Use this in actions
+if(wlCity.IsLoaded()){}; // Use this in conditions
+
+// If you want the game to check if the city isn't loaded use
+
+if(!wlCity.IsLoaded()){}; // Use this in conditions
 ```
 
-Verify if its safe to interrupt the gameplay
+- Verify if its safe to interrupt the gameplay
 ```
-if( SafeToInterruptGameplay() ) {};
-```
-
-Getting player characters for the script
-```
-Global Character cPlayer1;
-Global Character cPlayer2; // cPlayer1 is the first player and cPlayer2 is the second player
+if(SafeToInterruptGameplay()){}; // Use this in conditions
 ```
 
-Variable types in LCU
+5. Creating a Character or a Vehicle
 ```
-Character NPC;
+Character Guard;
 
-Vehicle PrisonerTransport;
+Vehicle Vehicle;
 
-Job fFlowMutex("Flow_Setup");
+Position GuardSpawnPos(0, 0, 0);
+Position carPos(0, 0, 0);
 
-Number nDirection(lFrankLobbySpawn.GetDirection() );
+Number gRot(1);
+Number carRot(1);
 
-Text tLightsOn("Light_On_");
-
-Sound sMainIntro_01_40_Mayor("MainIntro_01_40_Mayor");
-
-Gizmo gBankMCut("M03_BankMinicut");
-
-Locator lFrankMove("Story_02_FrankMove", wlTheCity);
-
-Timer scriptTimer(0);
-
-Bool bPlayer1(false);
-
-Position startPos(-179.5, 3.36, -220);
+Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, gRot);
+Vehicle = CreateAIVehicle(tVehicleType, "Enforcer", carPos, carRot);
 ```
+
+- Some things for getting characters, vehicles, models or audio to be set as something, etc.
+```
+Guard.SetInvulnerable(true/false);
+Guard.SetPushable(true/false);
+Guard.SetNoCollision(true/false);
+Guard.SetNoTerrainCollision(true/false);
+Guard.SetArrestable(true/false);
+Guard.Kill();
+Guard.PlayContextAnimation("PoliceStation_StairSweep", -1) // 1 means it plays once, -1 means it's infinite
+Guard.Teleport( position, direction );
+Guard.Attack(cPlayer1);
+
+cTrooper.Destroy(); // Destroys a vehicle
+
+gStairBlockage1.SetVisible(true);
+gStairBlockage1.SetActive(true);
+gDoors.Reset();
+
+sFranKTalk1.Start(); // Starts an audio
+sFranKTalk1.Stop(); // Stops an audio
+```
+
+- Other things car and vehicle related
+```
+CopCar4.TurnOnSirene(true);
+```
+
+6. Commenting something in the script
+```
+// My comment
+
+/*
+My comment
+*/
+```
+
+# Other Functions, Variables etc.
 
 Make GUI visible/invisible
 ```
@@ -78,50 +172,15 @@ Get the position of the player
 Position playerpos(cPlayer1.GetPosition());
 ```
 
-If we want to make the game to do something when this and this happen we use OR
-```
-if (  cPlayer1.GetVehicle() OR cPlayer2.GetVehicle()  )
-{
-				
-goto SetLCPDSatNav();
-```
-
 Make an character enter/leave the vehicle
 ```
 NPC.EnterVehicle(car, #DRIVER);
-NPC.ExitVehicle()
-```
-
-Creating the AI Character and a AI vehicle
-```
-Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, (200 / 360) * 65535);
-Vehicle = CreateAIVehicle(tVehicleType, "Enforcer", lCar02, nDirection );
-```
-
-Some things for getting characters, vehicles, models or audio to do something
-```
-Guard.SetInvulnerable(true/false); // Makes him invincible
-Guard.SetPushable(true/false); // Makes him pushable
-Guard.SetNoCollision(true/false); // Makes him have no collision
-Guard.SetNoTerrainCollision(true/false); // Makes him have no Terrain collision
-Guard.SetArrestable(true/false); // Makes him arrestable
-Guard.Kill(); // Destroys him
-Guard.PlayContextAnimation("PoliceStation_StairSweep", -1) // Makes him play some kind of animation (-1 means it plays forever, 1 means it plays once)
-Guard.Teleport( position, direction ); // Makes him teleport somewhere
-
-cTrooper.Destroy(); // Destroys a vehicle
-
-gStairBlockage1.SetVisible(true); // Makes a model visible
-gStairBlockage1.SetActive(true); // Makes a model active
-gDoors.Reset(); // Resets it
-
-sFranKTalk1.Start(); // Starts an audio
-sFranKTalk1.Stop(); // Stops an audio
+NPC.ExitVehicle();
 ```
 
 How to play music and stop it
 ```
-TrackBank tbankActionMusic("myEpicFight");
+TrackBank tbankActionMusic("CHASE_Foot");
 SetTrackBank(tbankActionMusic);
 
 PlayActionMusic(true);
@@ -135,11 +194,6 @@ Make Something happen when you enter or leave the vehicle
 ```
 if(cPlayer1.GetVehicle()) {}
 elseIf(!cPlayer1.GetVehicle()) {}
-```
-
-Make an character attack the player
-```
-Gangmember1.Attack(cPlayer1);
 ```
 
 The script waits before doing something
@@ -160,11 +214,14 @@ Position Pos(0, 0, 0);
 SetSatNavDestination(Pos);
 SetObjectiveMarker(Pos, 0.5, true, true);
 ShowObjectiveMarker(true):
-//this sets up an objective marker
+
+// This sets up an objective marker
+
 SetSatNavDestination();
 SetObjectiveMarker(cPlayer1, 0, false, false);
 ShowObjectiveMarker(false);
-//this clears the marker
+
+// This clears the marker
 ```
 
 Lock the player in place
@@ -178,13 +235,8 @@ cPlayer1.LockInPlace(true, "idle"); // you can also use this
 
 If Player pressed the button a something happens, if player holds the button L2 something happens
 ```
-if ( PlayerPressedButton("A") )
-if (PlayerHeldButton("L2") )
-```
-
-The script changes the State Base to another one (For example State SpawnRobber)
-```
-goto SpawnRobber();
+if(PlayerPressedButton("A")){};
+if(PlayerHeldButton("L2")){};
 ```
 
 Play a SFX
@@ -192,19 +244,12 @@ Play a SFX
 PlaySFX(sfx="UI_CodeBreak_CheatUnlocked");
 ```
 
-Commenting something in the script
-```
-// My comment
-
-/*
-My comment
-*/
-```
-
 Making the screen black and normal again
 ```
 Fadescreen(true);
+
 wait(1);
+
 Fadescreen(true);
 ```
 
@@ -213,20 +258,14 @@ Set time of day to DUSK, NOON or DAWN (you can also do nothing which will look l
 SetTimeOfDay(“Dusk”);
 SetTimeOfDay(“Dawn”);
 SetTimeOfDay(“Noon”);
-
-SetTimeOfDay(“You can put whatever you want here for the night effect”);
+SetTimeOfDay(“Night”);
 ```
 
-Check if player is skydiving, isnt skydiving or make the player end a skydive
+Check if player is skydiving, isnt skydiving or check if the player has stopped the skydive
 ```
 if (cPlayer1.IsSkydiving())
 if (!cPlayer1.IsSkydiving())
-if (!cPlayer1.EndSkydive());
-```
-
-Make the player face another character
-```
-cPlayer1.FaceCharacter(vinnie);
+if (cPlayer1.EndSkydive());
 ```
 
 
