@@ -27,6 +27,9 @@ Timer scriptTimer(0);
 Bool bPlayer1(false);
 Position positionPos(0, 0, 0);
 HotSpot hMissionStart("Flow5.13_GotoBank", wlCity);
+Area aStartFighting("Story_A3_M9_HospitalRoof"); 	
+Message mBarrel ("msg_level.KickBarrel", wlMissionLevel);
+AttackManager amHelipadFight;
 ```
 
 - If you want to use variables between scripts use Global before the variable name.
@@ -134,6 +137,7 @@ Guard.ExitVehicle();
 Guard.SetAiOverride(true/false); // Lock a NPC in place.
 Guard.LockInPlace(true, "idle"); // You can use this
 Guard.Flee(cPlayer1);
+Guard.SetAvoidance(true); // I dont really know what this does
 
 car.Destroy(); 
 
@@ -189,10 +193,37 @@ Character.FollowCharacter(cPlayer1, 0.3, 1.6);
 SpawnStuds(cPlayer1.GetPosition(), 50000, 1);
 ```
 
-- Check if player is in any of these contexts
+- Checks if player is in any of these contexts
 ```
+// Useful
 if(cPlayer1.InContext("DeathContext")){};
 if(cPlayer1.InContext("Swimming")){};
+if(cPlayer1.InContext("Wall Run")){};
+if(cPlayer1.InContext("flatten")){};
+if(cPlayer1.InContext("Falling")){};
+if(cPlayer1.InContext("Jumping")){};
+if(cPlayer1.InContext("RideObject")){};
+if(cPlayer1.InContext("Hang")){};
+if(cPlayer1.InContext("Falling")){};
+if(cPlayer1.InContext("Default")){};
+if(cPlayer1.InContext("Throw")){};
+if(cPlayer1.InContext("LandJump")){};
+if(cPlayer1.InContext("HandCuffed")){};
+if(cPlayer1.InContext("UnlockDisguise")){};
+
+// Not really useful 
+if(cPlayer1.InContext("Mech Jump In")){};
+if(cPlayer1.InContext("AnimationTask")){};
+if(cPlayer1.InContext("MechBigJump")){};
+if(cPlayer1.InContext("PDAScanner")){};
+if(cPlayer1.InContext("BouncePadJump")){};
+if(cPlayer1.InContext("PutDown")){};
+if(cPlayer1.InContext("GrappleRope")){};
+if(cPlayer1.InContext("Grapple")){};
+if(cPlayer1.InContext("DrainPipes")){};
+if(cPlayer1.InContext("DJDeck")){};
+if(cPlayer1.InContext("DropPoint")){};
+if(cPlayer1.InContext("MechWallJumpWait")){};
 ```
 
 # 6. Commenting something in the script
@@ -210,6 +241,13 @@ My comment
 ```
 UI_ShowHUD(true/false); // Other GUIs
 UI_ShowPlayerHUD(false); // Player GUI
+```
+
+- Set an Hint and cancel it
+```
+SetHint("HINT_STORY_HINT", true, false);
+
+CancelHint();
 ```
 
 - If Player pressed the button a something happens, if player holds the button L2 something happens
