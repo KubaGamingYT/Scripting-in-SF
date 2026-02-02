@@ -25,7 +25,8 @@ Gizmo gBankMCut("M03_BankMinicut");
 Locator lFrankMove("Story_02_FrankMove", wlTheCity);
 Timer scriptTimer(0);
 Bool bPlayer1(false);
-Position startPos(-179.5, 3.36, -220);
+Position positionPos(0, 0, 0);
+HotSpot hMissionStart("Flow5.13_GotoBank", wlCity);
 ```
 
 - If you want to use variables between scripts use Global before the variable name.
@@ -51,7 +52,7 @@ goto MainB();
 
 - And that's how States look:
 ```
-State MainB() {
+State MainB() { // you can change the MainB to whatever you want
 
     Conditions
     {
@@ -72,14 +73,13 @@ Base();
 
 - For making if something doesn't happen something happens we use !
 ```
-if(!cPlayer1.GetVehicle()){};
+if(!cPlayer1.GetVehicle()){}; // *ONLY IN CONDITIONS!*
 ```
 
-- Examples of using if, elseif, else and while
+- Examples of using if, elseif and while
 ```
 if(cPlayer1.GetVehicle()){};
 elseif(cPlayer1.GetVehicle()){};
-else(cPlayer1.GetVehicle()){};
 while(!cPlayer1.GetVehicle()){};
 ```
 
@@ -87,7 +87,7 @@ while(!cPlayer1.GetVehicle()){};
 
 - Worldlevel is an function to make the game know what WorldLevels are used in the script
 ```
-WorldLevel wlCity("Lego_City"); // Make the game know that code is executing in LEGO_CITY
+WorldLevel wlCity("Lego_City"); // If you're using something that mentions wlCity you need to use that. It's an function, so you use it on the top
 
 while(!wlCity.IsLoaded()){}; // Use this in actions
 if(wlCity.IsLoaded()){}; // Use this in conditions
@@ -106,7 +106,7 @@ if(SafeToInterruptGameplay()){}; // Use this in conditions
 ```
 Character Guard;
 
-Vehicle Vehicle;
+Vehicle car;
 
 Position GuardSpawnPos(0, 0, 0);
 Position carPos(0, 0, 0);
@@ -115,7 +115,7 @@ Number gRot(1);
 Number carRot(1);
 
 Guard = CreateAiCharacter("PrisonGuard02", "Security", GuardSpawnPos, gRot);
-Vehicle = CreateAIVehicle(tVehicleType, "Enforcer", carPos, carRot);
+car = CreateAiVehicle("Buzzer", "MotorCycle", carPos, carRot);
 ```
 
 - Some things for getting characters, vehicles, models or audio to be set as something, etc.
@@ -126,23 +126,37 @@ Guard.SetNoCollision(true/false);
 Guard.SetNoTerrainCollision(true/false);
 Guard.SetArrestable(true/false);
 Guard.Kill();
-Guard.PlayContextAnimation("PoliceStation_StairSweep", -1) // 1 means it plays once, -1 means it's infinite
+Guard.PlayContextAnimation("PoliceStation_StairSweep", -1); // 1 means it plays once, -1 means it's infinite
 Guard.Teleport( position, direction );
 Guard.Attack(cPlayer1);
+Guard.EnterVehicle(car, #DRIVER);
+Guard.ExitVehicle();
+Guard.SetAiOverride(true/false); // Lock a NPC in place.
+Guard.LockInPlace(true, "idle"); // You can use this
+Guard.Flee(cPlayer1);
 
-cTrooper.Destroy(); // Destroys a vehicle
+car.Destroy(); 
 
 gStairBlockage1.SetVisible(true);
 gStairBlockage1.SetActive(true);
-gDoors.Reset();
+gStairBlockage1.Reset();
 
-sFranKTalk1.Start(); // Starts an audio
-sFranKTalk1.Stop(); // Stops an audio
+audio.Start(); // Starts an audio
+audio.Stop(); // Stops an audio
 ```
 
 - Other things car and vehicle related
 ```
-CopCar4.TurnOnSirene(true);
+car.TurnOnSirene(true);
+if(cPlayer1.IsSkydiving()){};
+if(!cPlayer1.IsSkydiving()){}; // checks if the player isnt skydiving
+if(cPlayer1.EndSkydive()){};
+if(cPlayer1.GetVehicle()){};
+```
+
+- Get the position of the player
+```
+Position playerpos(cPlayer1.GetPosition());
 ```
 
 6. Commenting something in the script
@@ -154,60 +168,45 @@ My comment
 */
 ```
 
-# Other Functions, Variables etc.
+7. Gui, rendering, audio, time.
 
-Make GUI visible/invisible
+- Make GUI visible/invisible
 ```
 UI_ShowHUD(true/false); // Other GUIs
 UI_ShowPlayerHUD(false); // Player GUI
 ```
 
-Stop rendering the character
+- If Player pressed the button a something happens, if player holds the button L2 something happens
 ```
-SetCharacterFlags(Character=cPlayer1, #DontRender);
-```
-
-Get the position of the player
-```
-Position playerpos(cPlayer1.GetPosition());
+if(PlayerPressedButton("A")){};
+if(PlayerHeldButton("L2")){};
 ```
 
-Make an character enter/leave the vehicle
-```
-NPC.EnterVehicle(car, #DRIVER);
-NPC.ExitVehicle();
-```
-
-How to play music and stop it
-```
-TrackBank tbankActionMusic("CHASE_Foot");
-SetTrackBank(tbankActionMusic);
-
-PlayActionMusic(true);
-
-PlayActionMusic(false);
-
-ClearTrackBank();
-```
-
-Make Something happen when you enter or leave the vehicle
-```
-if(cPlayer1.GetVehicle()) {}
-elseIf(!cPlayer1.GetVehicle()) {}
-```
-
-The script waits before doing something
-```
-wait(1); // waits 1 second
-wait(0.5); // waits 500 milliseconds before doing something
-```
-
-Shows an message on the screen
+- Shows an message on the screen
 ```
 UI_SetMissionMessage("MOD_MESSAGE", 4);
 ```
 
-This sets and clears an Objective Marker for the 1 player
+- Shows an end mission message on the screen
+```
+UI_EndMission("MOD_MISSION", true);
+```
+
+- Shows the character on the map
+```
+Guard.UI_Map_SetCharacterActive(true);
+```
+
+- Making the screen fade in and out
+```
+Fadescreen(true);
+
+wait(1);
+
+Fadescreen(true);
+```
+
+- This sets and clears an Objective Marker for the 1 player
 ```
 Position Pos(0, 0, 0);
 
@@ -224,36 +223,29 @@ ShowObjectiveMarker(false);
 // This clears the marker
 ```
 
-Lock the player in place
+- Stop rendering the character
 ```
-cPlayer1.SetAiOverride(true); // lock
-
-cPlayer1.SetAiOverride(false); // unlock
-
-cPlayer1.LockInPlace(true, "idle"); // you can also use this
+SetCharacterFlags(Character=cPlayer1, #DontRender);
 ```
 
-If Player pressed the button a something happens, if player holds the button L2 something happens
+- How to play music and stop it
 ```
-if(PlayerPressedButton("A")){};
-if(PlayerHeldButton("L2")){};
+TrackBank tbankActionMusic("CHASE_Foot");
+SetTrackBank(tbankActionMusic);
+
+PlayActionMusic(true);
+
+PlayActionMusic(false);
+
+ClearTrackBank();
 ```
 
-Play a SFX
+- Play a SFX
 ```
 PlaySFX(sfx="UI_CodeBreak_CheatUnlocked");
 ```
 
-Making the screen black and normal again
-```
-Fadescreen(true);
-
-wait(1);
-
-Fadescreen(true);
-```
-
-Set time of day to DUSK, NOON or DAWN (you can also do nothing which will look like a night)
+- Set time of day to DUSK, NOON or DAWN (you can also do nothing which will look like a night)
 ```
 SetTimeOfDay(“Dusk”);
 SetTimeOfDay(“Dawn”);
@@ -261,12 +253,15 @@ SetTimeOfDay(“Noon”);
 SetTimeOfDay(“Night”);
 ```
 
-Check if player is skydiving, isnt skydiving or check if the player has stopped the skydive
+8. Wait
+
+- The script waits before doing something
 ```
-if (cPlayer1.IsSkydiving())
-if (!cPlayer1.IsSkydiving())
-if (cPlayer1.EndSkydive());
+wait(1); // waits 1 second
+wait(0.5); // waits 500 milliseconds before doing something
 ```
+
+
 
 
 
