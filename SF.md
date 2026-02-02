@@ -6,7 +6,7 @@ Hello, welcome to this guide. I'm still working on it if you have any questions 
 
 Here are some basics and how to make good scripts.
 
-1. Always first use variables such as
+# 1. Always first use variables such as
 ```
 Global Character cPlayer1;
 Global Character cPlayer2;
@@ -41,7 +41,7 @@ Global Number n;
 // etc.
 ```
 
-2. States. 
+# 2. States. 
 
 - We use them after variables. You can name the State whatever you want.
 
@@ -69,7 +69,7 @@ Base();
 
 - If you're using conditions you need to remember that you don't use while, you use if, and in Actions you can use if and while.
 
-3. If, ElseIf, Else and while
+# 3. If, ElseIf, Else and while
 
 - For making if something doesn't happen something happens we use !
 ```
@@ -83,7 +83,7 @@ elseif(cPlayer1.GetVehicle()){};
 while(!cPlayer1.GetVehicle()){};
 ```
 
-4. Worldlevels
+# 4. Worldlevels
 
 - Worldlevel is an function to make the game know what WorldLevels are used in the script
 ```
@@ -102,7 +102,7 @@ if(!wlCity.IsLoaded()){}; // Use this in conditions
 if(SafeToInterruptGameplay()){}; // Use this in conditions
 ```
 
-5. Creating a Character or a Vehicle
+# 5. Creating a Character or a Vehicle
 ```
 Character Guard;
 
@@ -195,7 +195,7 @@ if(cPlayer1.InContext("DeathContext")){};
 if(cPlayer1.InContext("Swimming")){};
 ```
 
-6. Commenting something in the script
+# 6. Commenting something in the script
 ```
 // My comment
 
@@ -204,7 +204,7 @@ My comment
 */
 ```
 
-7. Other Useful SF thingies.
+# 7. Other Useful SF thingies.
 
 - Make GUI visible/invisible
 ```
@@ -300,7 +300,7 @@ if(cPlayer1.DistanceTo(position) > 5){}; // conditions
 SpawnStuds(position, 50000, 1); // change the position to your position name
 ```
 
-8. Wait
+# 8. Wait
 
 - The script waits before doing something
 ```
