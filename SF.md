@@ -159,6 +159,42 @@ if(cPlayer1.GetVehicle()){};
 Position playerpos(cPlayer1.GetPosition());
 ```
 
+- Set Character Flags: make the character unpushable, ignoregravity and make it not render
+```
+SetCharacterFlags(Character=C, #DontPush, #NoTerrain, #IgnoreGravity, #DontRender); // Change the C to your character name
+```
+
+- Make the player face an character
+```
+cPlayer1.FaceCharacter(character); // change character to the name of your character
+```
+
+- Award an character to a player.
+```
+AwardCharacter("Character"); // Change the character to your character name
+```
+
+- Show a speech icon
+```
+Character.ShowSpeechIcon(true/false); // change Character to your character name
+```
+
+- Make a character follow the player
+```
+Character.FollowCharacter(cPlayer1, 0.3, 1.6);
+```
+
+- Spawn studs in player's position
+```
+SpawnStuds(cPlayer1.GetPosition(), 50000, 1);
+```
+
+- Check if player is in any of these contexts
+```
+if(cPlayer1.InContext("DeathContext")){};
+if(cPlayer1.InContext("Swimming")){};
+```
+
 6. Commenting something in the script
 ```
 // My comment
@@ -168,7 +204,7 @@ My comment
 */
 ```
 
-7. Gui, rendering, audio, time.
+7. Other Useful SF thingies.
 
 - Make GUI visible/invisible
 ```
@@ -184,7 +220,7 @@ if(PlayerHeldButton("L2")){};
 
 - Shows an message on the screen
 ```
-UI_SetMissionMessage("MOD_MESSAGE", 4);
+UI_SetMissionMessage("MOD_MESSAGE", 4); // The number is the number of seconds the message is showed on the screen.
 ```
 
 - Shows an end mission message on the screen
@@ -251,6 +287,17 @@ SetTimeOfDay(“Dusk”);
 SetTimeOfDay(“Dawn”);
 SetTimeOfDay(“Noon”);
 SetTimeOfDay(“Night”);
+```
+
+- The game checks if the player is next to a position
+```
+While(cPlayer1.DistanceTo(position) > 5){}; // actions
+if(cPlayer1.DistanceTo(position) > 5){}; // conditions
+```
+
+- The game spawns studs in a position
+```
+SpawnStuds(position, 50000, 1); // change the position to your position name
 ```
 
 8. Wait
