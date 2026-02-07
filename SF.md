@@ -30,6 +30,7 @@ HotSpot hMissionStart("Flow5.13_GotoBank", wlCity);
 Area aStartFighting("Story_A3_M9_HospitalRoof"); 	
 Message mBarrel ("msg_level.KickBarrel", wlMissionLevel);
 AttackManager amHelipadFight;
+Gadget gDebris01("Boulder_01_INST02", wlObservatory);
 ```
 
 - If you want to use variables between scripts use Global before the variable name.
@@ -123,21 +124,31 @@ car = CreateAiVehicle("Buzzer", "MotorCycle", carPos, carRot);
 
 - Some things for getting characters, vehicles, models or audio to be set as something, etc.
 ```
-Guard.SetInvulnerable(true/false);
-Guard.SetPushable(true/false);
-Guard.SetNoCollision(true/false);
-Guard.SetNoTerrainCollision(true/false);
-Guard.SetArrestable(true/false);
-Guard.Kill();
-Guard.PlayContextAnimation("PoliceStation_StairSweep", -1); // 1 means it plays once, -1 means it's infinite
-Guard.Teleport( position, direction );
-Guard.Attack(cPlayer1);
-Guard.EnterVehicle(car, #DRIVER);
-Guard.ExitVehicle();
-Guard.SetAiOverride(true/false); // Lock a NPC in place.
-Guard.LockInPlace(true, "idle"); // You can use this
-Guard.Flee(cPlayer1);
-Guard.SetAvoidance(true); // I dont really know what this does
+cPlayer1.SetInvulnerable(true/false);
+cPlayer1.SetPushable(true/false);
+cPlayer1.SetNoCollision(true/false);
+cPlayer1.SetNoTerrainCollision(true/false);
+cPlayer1.SetArrestable(true/false);
+cPlayer1.SetNoTagRelease(true/false);
+cPlayer1.SetAvoidance(false);
+cPlayer1.SetIgnoreCamVolumes(true);
+cPlayer1.Kill();
+cPlayer1.PlayContextAnimation("PoliceStation_StairSweep", -1); // 1 means it plays once, -1 means it's infinite
+cPlayer1.Teleport( position, direction );
+cPlayer1.Attack(cPlayer1);
+cPlayer1.EnterVehicle(car, #DRIVER);
+cPlayer1.ExitVehicle();
+cPlayer1.SetAiOverride(true/false); // Lock a NPC in place.
+cPlayer1.LockInPlace(true, "idle"); // You can use this
+cPlayer1.Flee(cPlayer1);
+cPlayer1.BeenKilled();
+cPlayer1.Deactivate();
+cPlayer1.InVehicle(car);
+cPlayer1.Takeover(car);
+cPlayer1.SetHealth(#Set, plyrHp + 1);
+cPlayer1.SetVehicle( car, #Driver );
+cPlayer1.SetWaypointDriveSpeed(locator, speed);
+cPlayer1.HasClassAbilities("Cop");
 
 car.Destroy(); 
 
@@ -149,13 +160,39 @@ audio.Start(); // Starts an audio
 audio.Stop(); // Stops an audio
 ```
 
+- Get position, vehicle, etc of Player
+```
+cPlayer1.GetSpeed();
+cPlayer1.GetPosition();
+cPlayer1.GetRidden();
+cPlayer1.GetVehicle();
+cPlayer1.GetDirection();
+cPlayer1.GetHealth();
+cPlayer1.GetClass();
+cPlayer1.GetModelName();
+cPlayer1.GetPaintColour();
+```
+
 - Other things car and vehicle related
 ```
 car.TurnOnSirene(true);
-if(cPlayer1.IsSkydiving()){};
-if(!cPlayer1.IsSkydiving()){}; // checks if the player isnt skydiving
-if(cPlayer1.EndSkydive()){};
-if(cPlayer1.GetVehicle()){};
+cPlayer1.IsSkydiving();
+cPlayer1.EndSkydive();
+cPlayer1.DeployParachute();
+cPlayer1.SkydiveRotateToHeading( 20, 30 );
+cPlayer1.SetAlternateChute(true);
+cPlayer1.StartSkydiveMidfall();
+
+cPlayer1.InArea(aCheckNearBike);
+
+cPlayer1.DistanceTo( position );
+cPlayer1.DistanceToXZ( position );
+cPlayer1.MakeChaseCamFollow(position);
+```
+
+- Make the vehicle drive somewhere
+```
+cPlayer1.DriveTo(lSpawnPursuitBuggy_01, 4);
 ```
 
 - Get the position of the player
@@ -168,9 +205,11 @@ Position playerpos(cPlayer1.GetPosition());
 SetCharacterFlags(Character=C, #DontPush, #NoTerrain, #IgnoreGravity, #DontRender); // Change the C to your character name
 ```
 
-- Make the player face an character
+- Make the player face an character, camera or locator
 ```
-cPlayer1.FaceCharacter(character); // change character to the name of your character
+cPlayer1.FaceCharacter(character);
+cPlayer1.FaceCamera();
+cPlayer1.FaceLocator(lTowerObjective);
 ```
 
 - Award an character to a player.
@@ -195,35 +234,113 @@ SpawnStuds(cPlayer1.GetPosition(), 50000, 1);
 
 - Checks if player is in any of these contexts
 ```
-// Useful
-if(cPlayer1.InContext("DeathContext")){};
-if(cPlayer1.InContext("Swimming")){};
-if(cPlayer1.InContext("Wall Run")){};
-if(cPlayer1.InContext("flatten")){};
-if(cPlayer1.InContext("Falling")){};
-if(cPlayer1.InContext("Jumping")){};
-if(cPlayer1.InContext("RideObject")){};
-if(cPlayer1.InContext("Hang")){};
-if(cPlayer1.InContext("Falling")){};
-if(cPlayer1.InContext("Default")){};
-if(cPlayer1.InContext("Throw")){};
-if(cPlayer1.InContext("LandJump")){};
-if(cPlayer1.InContext("HandCuffed")){};
-if(cPlayer1.InContext("UnlockDisguise")){};
-
-// Not really useful 
-if(cPlayer1.InContext("Mech Jump In")){};
 if(cPlayer1.InContext("AnimationTask")){};
-if(cPlayer1.InContext("MechBigJump")){};
-if(cPlayer1.InContext("PDAScanner")){};
+if(cPlayer1.InContext("Attack")){};
+if(cPlayer1.InContext("BenchPress")){};
 if(cPlayer1.InContext("BouncePadJump")){};
-if(cPlayer1.InContext("PutDown")){};
-if(cPlayer1.InContext("GrappleRope")){};
-if(cPlayer1.InContext("Grapple")){};
-if(cPlayer1.InContext("DrainPipes")){};
+if(cPlayer1.InContext("Brick Grab")){};
+if(cPlayer1.InContext("BuckingBronco")){};
+if(cPlayer1.InContext("CatchCat")){};
+if(cPlayer1.InContext("DeathContext")){};
+if(cPlayer1.InContext("Default")){};
+if(cPlayer1.InContext("DetectiveMove")){};
 if(cPlayer1.InContext("DJDeck")){};
+if(cPlayer1.InContext("DrainPipes")){};
+if(cPlayer1.InContext("DrillShock")){};
 if(cPlayer1.InContext("DropPoint")){};
+if(cPlayer1.InContext("Fall")){};
+if(cPlayer1.InContext("Falling")){};
+if(cPlayer1.InContext("flatten")){};
+if(cPlayer1.InContext("FlyHover")){};
+if(cPlayer1.InContext("GizSwitch")){};
+if(cPlayer1.InContext("Gliding")){};
+if(cPlayer1.InContext("Grabbed")){};
+if(cPlayer1.InContext("Grapple")){};
+if(cPlayer1.InContext("GrappleRope")){};
+if(cPlayer1.InContext("Handcuff")){};
+if(cPlayer1.InContext("HandCuffed")){};
+if(cPlayer1.InContext("Hang")){};
+if(cPlayer1.InContext("HPole")){};
+if(cPlayer1.InContext("InBarrel")){};
+if(cPlayer1.InContext("Jumping")){};
+if(cPlayer1.InContext("Knockdown")){};
+if(cPlayer1.InContext("Knockdown_Getup")){};
+if(cPlayer1.InContext("Ladder")){};
+if(cPlayer1.InContext("LandingFromJump")){};
+if(cPlayer1.InContext("LandJump")){};
+if(cPlayer1.InContext("Ledge")){};
+if(cPlayer1.InContext("LegoItem")){};
+if(cPlayer1.InContext("Mech Jump In")){};
+if(cPlayer1.InContext("MechBigJump")){};
+if(cPlayer1.InContext("MechClimbing")){};
 if(cPlayer1.InContext("MechWallJumpWait")){};
+if(cPlayer1.InContext("ParkourMove")){};
+if(cPlayer1.InContext("PDAScanner")){};
+if(cPlayer1.InContext("PoleClimbContext")){};
+if(cPlayer1.InContext("Post Hop")){};
+if(cPlayer1.InContext("PutDown")){};
+if(cPlayer1.InContext("RexFuryStunned")){};
+if(cPlayer1.InContext("RideAlong")){};
+if(cPlayer1.InContext("RideObject")){};
+if(cPlayer1.InContext("RocketOutOfControl")){};
+if(cPlayer1.InContext("ShootTargetting")){};
+if(cPlayer1.InContext("Shrug")){};
+if(cPlayer1.InContext("SuperCarry")){};
+if(cPlayer1.InContext("Swimming")){};
+if(cPlayer1.InContext("Takedown_Getup")){};
+if(cPlayer1.InContext("TakeHit")){};
+if(cPlayer1.InContext("Techno")){};
+if(cPlayer1.InContext("teleport")){};
+if(cPlayer1.InContext("Throw")){};
+if(cPlayer1.InContext("Thrown")){};
+if(cPlayer1.InContext("Treadmill")){};
+if(cPlayer1.InContext("UnlockDisguise")){};
+if(cPlayer1.InContext("Wall Run")){};
+if(cPlayer1.InContext("Whip")){};
+if(cPlayer1.InContext("Whistle")){};
+```
+
+- Registers Events
+```
+RegisterEvent("AllGoldBricksCollected","function");
+RegisterEvent("ArrivedAtTarget","function");
+RegisterEvent("ArrivedAtWaypoint","function");
+RegisterEvent("ArrivedToBouncePadTarget","function");
+RegisterEvent("CityObjectiveCompleted","function");
+RegisterEvent("CrashmatLanding","function");
+RegisterEvent("CutsceneFinished","function");
+RegisterEvent("EnteredVehicle","function");
+RegisterEvent("ExitedVehicle","function");
+RegisterEvent("FastTravelSelected","function");
+RegisterEvent("FlowExitRequest","function");
+RegisterEvent("FlowRetryRequest","function");
+RegisterEvent("GameObjectObjHitObj","function");
+RegisterEvent("HelipadLanding","function");
+RegisterEvent("MapClosed","function");
+RegisterEvent("MapOpened","function");
+RegisterEvent("MoonBaseBossDefeated","function");
+RegisterEvent("OnDriveTrain","function");
+RegisterEvent("OnFastTravel","function");
+RegisterEvent("OnSummaryCancel","function");
+RegisterEvent("OnSummarySelection","function");
+RegisterEvent("Player2HasDroppedOut","function");
+RegisterEvent("PlayerExitedVehicle","function");
+RegisterEvent("PlayerJackedVehicle","function");
+RegisterEvent("PlayerVehicleAndAIVehicleCollision","function");
+RegisterEvent("PlayerVehicleDestroyed","function");
+RegisterEvent("PlayerVehicleHitKrawlie","function");
+RegisterEvent("PlayerVehicleHitProp","function");
+RegisterEvent("PlayerVehicleHitTraffic","function");
+RegisterEvent("PlayerVehicleJumping","function");
+RegisterEvent("PlayerVehicleNearlyWrecked","function");
+RegisterEvent("PlayerVehicleOnRoof","function");
+RegisterEvent("PlayerVehicleWaterRespawn","function");
+RegisterEvent("RampActivated","function");
+RegisterEvent("SideMissionMenuQuitRequest","function");
+RegisterEvent("SideMissionMenuRetryRequest","function");
+RegisterEvent("SideMissionMenuStartRequest","function");
+RegisterEvent("VehicleTakenDamage","function");
+RegisterEvent("WasTackled","function");
 ```
 
 # 6. Commenting something in the script
