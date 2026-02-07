@@ -101,6 +101,45 @@ if(wlCity.IsLoaded()){}; // Use this in conditions
 if(!wlCity.IsLoaded()){}; // Use this in conditions
 ```
 
+- All Worldlevels I found
+```
+WorldLevel wlPoliceGarage("Police_Station_Garage");
+WorldLevel wlFinalMiniCut("tFinalBrickLevel");
+WorldLevel wlFinalMiniCutLD("tLDTileName");
+WorldLevel wlLocalFight("tTileName_Fight");
+WorldLevel wlLocalForce("tTileName_HotspotForce1");
+WorldLevel wlLocalScan("tTileName_Scan");
+WorldLevel wlLocal("tTileName");
+WorldLevel wlLocal("tWorldLevelName");
+WorldLevel wlApartment("Apartment");
+WorldLevel wlArena("Scrapyard_Arena");
+WorldLevel wlBankConnection("Bank_Connection");
+WorldLevel wlBankLobby("Bank_Interior");
+WorldLevel wlBankSewer("Bank_Sewer");
+WorldLevel wlBankSewer2("Bank_Sewer_02");
+WorldLevel wlBankVault("Bank_Vault");
+WorldLevel wlBoathouse("Fire_Station_Boathouse");
+WorldLevel wlFireInterior("Fire_Station_Interior");
+WorldLevel wlFireTraining("Fire_Station_Training_Area");
+WorldLevel wlIcecreamBar("Icecream_Bar");
+WorldLevel wlLevelIceCreamOffice("IceCream_Office");
+WorldLevel wlLevelMansion1Cave("Mansion1_Cave");
+WorldLevel wlLevelMansion1CaveTunnel("Mansion1_CaveTunnel");
+WorldLevel wlLevelMansion2Exterior("Mansion2_Exterior");
+WorldLevel wlLevelMineCavern("Mine_Cavern");
+WorldLevel wlLevelMineTunnel("Mine_Tunnel");
+WorldLevel wlLevelMoonBaseFinalBattle("MoonBase_FinalBattle");
+WorldLevel wlLevelMoonBaseSpaceDive("MoonBase_SpaceDive");
+WorldLevel wlLevelMoonBase1Crater("MoonBase1_Crater");
+WorldLevel wlLevelMuseumRoom01("Museum_Room01");
+WorldLevel wlLevelMuseumRoom02("Museum_Room02");
+WorldLevel wlPoliceBriefingRoom("Police_Station_BriefingRoom");
+WorldLevel wlScrapyardEntrance("Scrapyard_Entrance");
+WorldLevel wlLevelMoonBase3RocketLoadingBay("MoonBase3_RocketLoadingBay");
+WorldLevel wlCity("Lego_City");
+WorldLevel wlCityFight("Lego_City_Fight");
+```
+
 - Verify if its safe to interrupt the gameplay
 ```
 if(SafeToInterruptGameplay()){}; // Use this in conditions
