@@ -35,7 +35,7 @@ Gadget gDebris01("Boulder_01_INST02", wlObservatory);
 
 - If you want to use variables between scripts use Global before the variable name.
 
-Examples:
+Examples
 ```
 Global Character c;
 Global Vehicle v;
@@ -49,12 +49,12 @@ Global Number n;
 
 - We use them after variables. You can name the State whatever you want.
 
-- To change states from one to another we use:
+- To change states from one to another we use
 ```
 goto MainB();
 ```
 
-- And that's how States look:
+- And that's how States look
 ```
 State MainB() { // you can change the MainB to whatever you want
 
@@ -239,7 +239,7 @@ cPlayer1.DriveTo(lSpawnPursuitBuggy_01, 4);
 Position playerpos(cPlayer1.GetPosition());
 ```
 
-- Set Character Flags: make the character unpushable, ignoregravity and make it not render
+- Set Character Flags make the character unpushable, ignoregravity and make it not render
 ```
 SetCharacterFlags(Character=C, #DontPush, #NoTerrain, #IgnoreGravity, #DontRender); // Change the C to your character name
 ```
@@ -442,7 +442,7 @@ Position Pos(0, 0, 0);
 
 SetSatNavDestination(Pos);
 SetObjectiveMarker(Pos, 0.5, true, true);
-ShowObjectiveMarker(true):
+ShowObjectiveMarker(true);
 
 // This sets up an objective marker
 
