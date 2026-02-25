@@ -48,13 +48,6 @@ Global Number n;
 # 2. States. 
 
 - We use them after variables. You can name the State whatever you want.
-
-- To change states from one to another we use
-```
-goto MainB();
-```
-
-- And that's how States look
 ```
 State MainB() { // you can change the MainB to whatever you want
 
@@ -69,6 +62,11 @@ State MainB() { // you can change the MainB to whatever you want
 };
 
 Base();
+```
+
+- To change states from one to another we use
+```
+goto MainB();
 ```
 
 - If you're using conditions you need to remember that you don't use while, you use if, and in Actions you can use if and while.
